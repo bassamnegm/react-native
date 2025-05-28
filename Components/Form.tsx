@@ -1,8 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ScrollView, StyleSheet, ToastAndroid, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { z } from 'zod';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const mySchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -16,10 +19,11 @@ const mySchema = z.object({
     });
 type myForm = z.infer<typeof mySchema>;
 function Form() {
+    const nav = useNavigation()
 
 
     const { handleSubmit, setValue, register, formState: { errors } } = useForm({
-        resolver: zodResolver(mySchema)
+
     })
     useEffect(() => {
         register("name");
@@ -48,7 +52,17 @@ function Form() {
         //     setError('name must be more than 5 char');
         // else
         //     setError('')
-        alert(JSON.stringify(values));
+        // nav.navigate("Home");
+        axios.post('https://dummyjson.com/auth/login', { username: 'emilys', password: 'emilyspass' }).then(res => {
+            if (res.status == 200 && res.data.accessToken) {
+                AsyncStorage.setItem('token', res.data.accessToken).then(() => {
+                    nav.navigate("Home");
+                })
+            }
+
+
+        }
+        )
 
 
 
