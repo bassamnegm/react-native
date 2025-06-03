@@ -5,6 +5,8 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Form from './Components/Form';
 import Home from './Components/Home';
 import Product from './Components/Product';
+import MyCount from './Components/MyCount';
+import Cart from './Components/Cart';
 
 function Tabs() {
     const Tab = createBottomTabNavigator();
@@ -27,6 +29,8 @@ function Tabs() {
 
                 }
             }} name='Home' component={Home}></Tab.Screen>
+            <Tab.Screen name='cart' component={Cart}></Tab.Screen>
+            <Tab.Screen name='camra' component={MyCount}></Tab.Screen>
         </Tab.Navigator>
     )
 }

@@ -1,18 +1,34 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useCart } from "../store/cart.store";
 
 type productprops = {
 
 }
-function Card({ title, price, description, thumbnail }: any) {
+function Card({ title, price, description, thumbnail, flag, q }: any) {
+    const addtocart = useCart((state) => state.addToCart)
+    const remove = useCart((state) => state.removeCart)
+
+    function save() {
+        if (flag) {
+            remove(title)
+        }
+        else {
+            let data = { title, price, description, thumbnail }
+            console.log(data)
+            addtocart(data);
+        }
+
+    }
     return (
         <View style={styles.card}>
-            <TouchableOpacity style={styles.card} >
+            <TouchableOpacity style={styles.card} onPress={save}>
                 <Image source={{ uri: thumbnail }} style={styles.image} />
                 <View style={styles.content}>
                     <Text style={styles.title}>{title}</Text>
 
                     <Text>{description}</Text>
                     <Text>{price}</Text>
+                    <Text>{q}</Text>
 
                 </View>
             </TouchableOpacity>
